@@ -15,6 +15,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class Obstacle {
     @Id
     @GeneratedValue
@@ -29,12 +30,16 @@ public class Obstacle {
     private Instant evt;
     private Instant rvt;
 
-    @OneToMany(mappedBy = "obstacle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "obstacle")
     private Set<ObstacleSetObstacle> obstacleSetObstacles;
 
     public void addObstacleSetObstacle(ObstacleSetObstacle obstacleSetObstacle) {
         if (obstacleSetObstacles == null) obstacleSetObstacles = new HashSet<>();
         obstacleSetObstacles.add(obstacleSetObstacle);
+    }
+    @Override
+    public String toString() {
+        return this.getUuid()+ "/" + this.getName();
     }
 
 }

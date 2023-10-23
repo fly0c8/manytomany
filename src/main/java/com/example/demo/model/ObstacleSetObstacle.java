@@ -15,6 +15,7 @@ public class ObstacleSetObstacle {
 
     @Id
     @GeneratedValue
+    @JdbcTypeCode(java.sql.Types.CHAR)
     private UUID uuid;
 
     @ManyToOne
@@ -30,6 +31,10 @@ public class ObstacleSetObstacle {
         obstacleSet.addObstacleSetObstacle(this);
         this.obstacle = obstacle;
         obstacle.addObstacleSetObstacle(this);
+    }
+    @Override
+    public String toString() {
+        return this.getUuid()+ "/" + this.getObstacleSet().toString() + "/"+ this.getObstacle().toString();
     }
 
 }
