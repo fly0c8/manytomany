@@ -1,13 +1,10 @@
 package com.example.demo.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 
-import java.time.Instant;
 import java.util.*;
-
 
 @Entity
 @Getter
@@ -15,7 +12,9 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Obstacle {
+@Table(indexes = @Index(name = "obstacleSet_rwyIndex", columnList = "aptId, rwyId"))
+public class ObstacleSet {
+
     @Id
     @GeneratedValue
     @JdbcTypeCode(java.sql.Types.CHAR)
@@ -24,13 +23,18 @@ public class Obstacle {
     private String rwyId;
     private String name;
     private String comment;
-    private Integer height;
-    private Instant svt;
-    private Instant evt;
-    private Instant rvt;
+    private Integer accHgtAE;
+    private Integer thrHgtAE;
+    private Integer thrHgtEO;
+    private String eoProc;
+    private String gaProc;
+    private Integer minTas;
+    private Integer maxTas;
 
-    @OneToMany(mappedBy = "obstacle", cascade = CascadeType.ALL, orphanRemoval = true)
+    // ALL, PERSIST, MERGE, REMOVE, REFRESH, DETACH;
+    @OneToMany(mappedBy = "obstacleSet", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ObstacleSetObstacle> obstacleSetObstacles;
+
 
     public void addObstacleSetObstacle(ObstacleSetObstacle obstacleSetObstacle) {
         if (obstacleSetObstacles == null) obstacleSetObstacles = new HashSet<>();
